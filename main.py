@@ -3,13 +3,9 @@ from RPS_game import play, mrugesh, abbey, quincy, kris, human, random_player
 from RPS import player
 from unittest import main
 
-import tensorflow as tf
-from tensorflow.keras import Sequential
-from tensorflow.keras.layers import Dense, Flatten
 
-import numpy as np
 
-play(player, quincy, 1000)
+play(player, quincy, 1000, verbose=True)
 # play(player, abbey, 1000)
 # play(player, kris, 1000)
 # play(player, mrugesh, 1000)
