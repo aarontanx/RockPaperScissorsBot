@@ -76,7 +76,8 @@ class MarkovChain:
       self.update_state(last_play)
       self.updateOdd()
 
-      ### Even if it's high rate, there's still randomness, just that the odd are higher compared to the other 2 choices
+      ### Using weight as the random choice odd
+      ### This is good vs quincy
       # Final results: {'p1': 574, 'p2': 215, 'tie': 211}
       # Player 1 win rate: 72.75031685678074%
       # Final results: {'p1': 398, 'p2': 430, 'tie': 172}
@@ -85,9 +86,10 @@ class MarkovChain:
       # Player 1 win rate: 50.607902735562305%
       # Final results: {'p1': 438, 'p2': 341, 'tie': 221}
       # Player 1 win rate: 56.22593068035944%
-      predictedPlay = random.choices(self.find_latest_state(last_play[-1]), list(self.currentOdd[last_play[-1]].values()))[0][-1]
+      # predictedPlay = random.choices(self.find_latest_state(last_play[-1]), list(self.currentOdd[last_play[-1]].values()))[0][-1]
 
       ### Select based on the weight alone
+      ### This is good vs mrugesh
       # Final results: {'p1': 201, 'p2': 398, 'tie': 401}
       # Player 1 win rate: 33.5559265442404%
       # Final results: {'p1': 398, 'p2': 600, 'tie': 2}
@@ -96,7 +98,7 @@ class MarkovChain:
       # Player 1 win rate: 50.0%
       # Final results: {'p1': 848, 'p2': 151, 'tie': 1}
       # Player 1 win rate: 84.88488488488488%
-      # predictedPlay = self.getOddPredPlay(last_play)
+      predictedPlay = self.getOddPredPlay(last_play)
       
       return self.beat[predictedPlay]
 
@@ -106,7 +108,7 @@ historicalPlay = []
 
 def player(prev_play, opponent_history=[], winningVal=[]):
     if prev_play == '':
-      return 'R'
+      return random.choice(['R','S','P'])
 
     historicalPlay.append(prev_play)
 
