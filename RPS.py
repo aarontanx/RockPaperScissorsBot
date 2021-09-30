@@ -49,9 +49,9 @@ class MarkovChain:
           keyToCheck.append(i)
       return keyToCheck
 
-
-    def check_highest_val(self, oddList, listOfPotential):
-      subsetDict = {key: oddList[key] for key in listOfPotential}
+    def getOddPredPlay(self, last_play):
+      subsetDict = self.currentOdd[last_play[-1]]
+      # print(subsetDict)
       return max(subsetDict, key = subsetDict.get)[1]
 
     def updateOdd(self):
@@ -77,15 +77,30 @@ class MarkovChain:
       self.updateOdd()
 
       ### Even if it's high rate, there's still randomness, just that the odd are higher compared to the other 2 choices
+      # Final results: {'p1': 574, 'p2': 215, 'tie': 211}
+      # Player 1 win rate: 72.75031685678074%
+      # Final results: {'p1': 398, 'p2': 430, 'tie': 172}
+      # Player 1 win rate: 48.06763285024155%
+      # Final results: {'p1': 333, 'p2': 325, 'tie': 342}
+      # Player 1 win rate: 50.607902735562305%
+      # Final results: {'p1': 438, 'p2': 341, 'tie': 221}
+      # Player 1 win rate: 56.22593068035944%
       predictedPlay = random.choices(self.find_latest_state(last_play[-1]), list(self.currentOdd[last_play[-1]].values()))[0][-1]
 
       ### Select based on the weight alone
-      # predictedPlay = self.currentOdd[last_play[-1]]
-      # listOfPotential = {"R": ['RP', 'RS', 'RR'], "P": ['PR', 'PS', 'PP'], 'S': ['SR', 'SP', 'SS']}
-      # print(self.check_highest_val(self.currentOdd[last_play[-1]], listOfPotential[last_play[-1]]))
-      # return self.beat[predictedPlay]
-
+      # Final results: {'p1': 201, 'p2': 398, 'tie': 401}
+      # Player 1 win rate: 33.5559265442404%
+      # Final results: {'p1': 398, 'p2': 600, 'tie': 2}
+      # Player 1 win rate: 39.879759519038075%
+      # Final results: {'p1': 500, 'p2': 500, 'tie': 0}
+      # Player 1 win rate: 50.0%
+      # Final results: {'p1': 848, 'p2': 151, 'tie': 1}
+      # Player 1 win rate: 84.88488488488488%
+      # predictedPlay = self.getOddPredPlay(last_play)
+      
       return self.beat[predictedPlay]
+
+
     
 historicalPlay = []
 
