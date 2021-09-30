@@ -5,10 +5,10 @@ from unittest import main
 
 
 
-play(player, quincy, 1000, verbose=True)
-# play(player, abbey, 1000)
-# play(player, kris, 1000)
-# play(player, mrugesh, 1000)
+play(player, quincy, 1000)
+play(player, abbey, 1000)
+play(player, kris, 1000)
+play(player, mrugesh, 1000)
 
 # print(opponent_history)
 

@@ -50,36 +50,42 @@ class MarkovChain:
       return keyToCheck
 
 
-    def check_highest_val(self, listOfPotential):
-      subsetDict = {key: state[key] for key in listOfPotential}
+    def check_highest_val(self, oddList, listOfPotential):
+      subsetDict = {key: oddList[key] for key in listOfPotential}
       return max(subsetDict, key = subsetDict.get)[1]
 
     def updateOdd(self):
-
-      self.currentOdd = { "R": [
-                          state["RP"]/(state['RP']+state['RS']+state['RR']),
-                          state["RS"]/(state['RP']+state['RS']+state['RR']),
-                          state["RR"]/(state['RP']+state['RS']+state['RR'])
-                        ],
-                        "P": [
-                          state["PR"]/(state['PR']+state['PS']+state['PP']),
-                          state["PS"]/(state['PR']+state['PS']+state['PP']),
-                          state["PP"]/(state['PR']+state['PS']+state['PP'])
-                        ],
-                         "S": [
-                          state["SR"]/(state['SR']+state['SP']+state['SS']),
-                          state["SP"]/(state['SR']+state['SP']+state['SS']),
-                          state["SS"]/(state['SR']+state['SP']+state['SS'])
-                        ]}
+      self.currentOdd = { "R": {
+                            "RP" : state["RP"]/(state['RP']+state['RS']+state['RR']),
+                            "RS" : state["RS"]/(state['RP']+state['RS']+state['RR']),
+                            "RR" : state["RR"]/(state['RP']+state['RS']+state['RR'])
+                          },
+                          "P": {
+                            "PR" : state["PR"]/(state['PR']+state['PS']+state['PP']),
+                            "PS" : state["PS"]/(state['PR']+state['PS']+state['PP']),
+                            "PP" : state["PP"]/(state['PR']+state['PS']+state['PP'])
+                          },
+                          "S" : {
+                            "SR" : state["SR"]/(state['SR']+state['SP']+state['SS']),
+                            "SP" : state["SP"]/(state['SR']+state['SP']+state['SS']),
+                            "SS" : state["SS"]/(state['SR']+state['SP']+state['SS'])
+                          }
+                        }
 
     def predict(self, last_play):
       self.update_state(last_play)
       self.updateOdd()
-      predictedPlay = random.choices(self.find_latest_state(last_play[-1]), self.currentOdd[last_play[-1]])[0][-1]
-      return self.beat[predictedPlay]
 
-    def getCurrentOdd(self):
-      print(self.currentOdd)
+      ### Even if it's high rate, there's still randomness, just that the odd are higher compared to the other 2 choices
+      predictedPlay = random.choices(self.find_latest_state(last_play[-1]), list(self.currentOdd[last_play[-1]].values()))[0][-1]
+
+      ### Select based on the weight alone
+      # predictedPlay = self.currentOdd[last_play[-1]]
+      # listOfPotential = {"R": ['RP', 'RS', 'RR'], "P": ['PR', 'PS', 'PP'], 'S': ['SR', 'SP', 'SS']}
+      # print(self.check_highest_val(self.currentOdd[last_play[-1]], listOfPotential[last_play[-1]]))
+      # return self.beat[predictedPlay]
+
+      return self.beat[predictedPlay]
     
 historicalPlay = []
 
